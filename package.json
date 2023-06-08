@@ -1,0 +1,17 @@
+{
+    "name": "gachee-serverless",
+    "version": "1.0.0",
+    "description": "",
+    "main": "handler.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "serverless deploy"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "mysql": "^2.18.1",
+        "serverless": "^3.30.1",
+        "serverless-mysql": "^1.5.5"
+    }
+}
