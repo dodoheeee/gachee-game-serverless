@@ -84,6 +84,12 @@ functions:
             - http:
                   path: /categories
                   method: get
+    getQuestionsByCategory:
+        handler: handler.getQuestionsByCategory
+        events:
+            - http:
+                  path: /categories/{categoryId}/questions
+                  method: get
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)

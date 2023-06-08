@@ -83,6 +83,70 @@ module.exports.createUser = async (event, context) => {
     }
 };
 
+module.exports.getQuestionsByCategoryId = async (event, context) => {
+    try {
+        await db.connect();
+
+        const { userId, name, gender, email } = JSON.parse(event.body);
+
+        const query = `
+      INSERT INTO users(user_id, name, gender, email)
+      VALUES (?, ?, ?, ?)
+    `;
+
+        const result = await db.query(query, [userId, name, gender, email]);
+
+        await db.end();
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ message: "SUCCESS" }),
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Internal Server Error" }),
+        };
+    }
+};
+
+module.exports.getQuestionsByCategory = async (event, context) => {
+    try {
+        await db.connect();
+
+        const { categoryId } = event.pathParameters;
+
+        const query = `
+        SELECT *
+        FROM questions
+        WHERE category_id = ?
+      `;
+
+        const questions = await db.query(query, [categoryId]);
+
+        await db.end();
+
+        if (questions.length === 0) {
+            return {
+                statusCode: 404,
+                body: JSON.stringify({ error: "카테고리를 찾을 수 없습니다." }),
+            };
+        }
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify(questions),
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Internal Server Error" }),
+        };
+    }
+};
+
 module.exports.dohee = async (event) => {
     return {
         statusCode: 200,
