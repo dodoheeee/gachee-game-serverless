@@ -84,12 +84,27 @@ functions:
             - http:
                   path: /categories
                   method: get
-    getQuestionsByCategory:
-        handler: handler.getQuestionsByCategory
+    getQuestionsAndAnswersByCategory:
+        handler: handler.getQuestionsAndAnswersByCategory
         events:
             - http:
-                  path: /categories/{categoryId}/questions
+                  path: /questions-answers/{categoryId}
                   method: get
+                  cors: true
+    getMatchedUsersForA:
+        handler: handler.getMatchedUsersForA
+        events:
+            - http:
+                  path: /matched-users/{userIdA}
+                  method: get
+                  cors: true
+    getUserAnswer:
+        handler: handler.getUserAnswer
+        events:
+            - http:
+                  path: /user/{userId}/answers
+                  method: get
+                  cors: true
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
