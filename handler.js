@@ -90,10 +90,10 @@ module.exports.getQuestionsAndAnswersByCategory = async (event) => {
 
         // MySQL 쿼리 생성
         const query = `
-      SELECT q.question_id, q.situation, q.sub_situation, q.title, a.answer_id, a.answer_content
-      FROM questions q
-      JOIN answers a ON q.question_id = a.question_id
-      WHERE q.category_id = ${categoryId}
+        SELECT q.question_id, q.situation, q.situation_image, q.title_image, q.title, q.sub_title, a.answer_id, a.answer_content
+        FROM questions q
+        JOIN answers a ON q.question_id = a.question_id
+        WHERE q.category_id = ${categoryId}
     `;
 
         // MySQL 쿼리 실행
@@ -110,13 +110,24 @@ module.exports.getQuestionsAndAnswersByCategory = async (event) => {
         // 카테고리별 문제와 답안 객체로 변환
         const categoryData = {};
         results.forEach((row) => {
-            const { question_id, situation, sub_situation, title, answer_id, answer_content } = row;
+            const {
+                question_id,
+                situation,
+                situation_image,
+                title_image,
+                title,
+                sub_title,
+                answer_id,
+                answer_content,
+            } = row;
             if (!categoryData[question_id]) {
                 categoryData[question_id] = {
                     question_id,
                     situation,
-                    sub_situation,
+                    situation_image,
+                    title_image,
                     title,
+                    sub_title,
                     answers: [],
                 };
             }
