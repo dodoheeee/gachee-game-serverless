@@ -158,22 +158,14 @@ module.exports.getMatchedUsersForA = async (event) => {
 
         // MySQL 쿼리 생성
         const query = `
-        SELECT u.user_id, u.name, u.email, m.matched_date
+        SELECT u.user_id, u.name, u.email, m.matched_date, m.match_score
         FROM users u
         JOIN matched_users m ON u.user_id = m.user_b_id
         WHERE m.user_a_id = '${userIdA}'
       `;
 
         // MySQL 쿼리 실행
-        const results = await new Promise((resolve, reject) => {
-            db.query(query, (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results);
-                }
-            });
-        });
+        const results = await db.query(query);
 
         // 매칭된 유저들의 리스트 객체로 변환
         const matchedUsers = results.map((row) => {
@@ -182,6 +174,7 @@ module.exports.getMatchedUsersForA = async (event) => {
                 name: row.name,
                 email: row.email,
                 matched_date: row.matched_date,
+                match_score: row.match_score,
             };
         });
 
